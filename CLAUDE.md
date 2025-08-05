@@ -1,0 +1,70 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Architecture
+
+This is a Stockfish MCP (Model Context Protocol) server built with FastMCP and Python. The architecture includes:
+
+- **Package Structure**: Main implementation in `stockfish_mcp/` package
+- **Server Entry Point**: `server.py` contains the FastMCP server instance and chess-api.com integration
+- **Planned Backend Abstraction**: Designed to support switching between chess-api.com and local Stockfish binary
+- **Dependencies**: FastMCP for MCP protocol, python-chess for chess logic, requests for API calls
+
+## Development Commands
+
+**Environment Setup:**
+```bash
+# Install dependencies and sync environment
+uv sync
+
+# Run the MCP server in development mode (with debugging/inspection)
+uv run mcp dev server.py
+
+# Run server via package entry point (when implemented)
+uv run stockfish-mcp
+```
+
+**Development Tasks:**
+```bash
+# Add new dependencies
+uv add package-name
+
+# Run Python scripts with project dependencies
+uv run python script.py
+
+# Install project in development mode
+uv pip install -e .
+```
+
+## Project Guidelines - CRITICAL INSTRUCTIONS
+- **NEVER WRITE MCP CODE**: This is a learning project. I must implement ALL MCP-related code myself
+- **NO CODE GENERATION**: Do not create, write, or suggest complete code implementations for MCP servers, tools, or handlers
+- **NO FILE CREATION**: Do not create Python files with MCP implementations
+- **MENTORSHIP ONLY**: Your role is to guide, explain concepts, and point me toward resources
+
+## What You CAN Do
+- Explain MCP concepts and architecture
+- Help me understand FastMCP documentation and examples
+- Point me to relevant documentation and resources
+- Help with environment setup (dependencies, virtual environments)
+- Assist with debugging when I show you my code
+- Answer questions about chess programming concepts
+- Help with testing and build processes
+
+## What You CANNOT Do
+- Write any Python code that implements MCP servers, tools, or handlers
+- Create server.py, main.py, or any MCP implementation files
+- Provide complete code examples for MCP functionality
+- Implement chess engine integration code
+
+## Mentorship Approach
+- When I ask for help, guide me to documentation or explain concepts
+- Ask questions to help me think through problems
+- Suggest approaches without providing implementations
+- Help me understand error messages and debugging
+
+## Documentation Resources
+- Always reference official FastMCP documentation
+- Use WebFetch to get latest documentation when needed
+- Point me to relevant chess programming resources
