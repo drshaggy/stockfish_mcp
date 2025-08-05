@@ -1,14 +1,32 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Build outputs
-dist/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
 build/
-*.tsbuildinfo
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
 
 # Environment variables
 .env
@@ -34,22 +52,21 @@ ehthumbs.db
 Thumbs.db
 
 # Logs
-logs
+logs/
 *.log
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+# Testing
+.coverage
+.pytest_cache/
+.tox/
+.nox/
+htmlcov/
 
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
+# UV
+uv.lock
 
-# nyc test coverage
-.nyc_output
+# MCP specific
+.mcp/
 
-# Temporary folders
-tmp/
-temp/
+# Claude Code
+.claude/

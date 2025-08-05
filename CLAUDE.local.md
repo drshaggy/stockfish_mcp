@@ -1,0 +1,1 @@
+- do not include claude in the commit messages

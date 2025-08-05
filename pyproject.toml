@@ -14,5 +14,8 @@ dependencies = [
     "mcp[cli]>=1.12.3",
 ]
 
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
 [project.scripts]
-stockfish-mcp = "stockfish_mcp.server:main"
+stockfish-mcp = "server:main"
