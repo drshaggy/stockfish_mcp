@@ -7,9 +7,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a Stockfish MCP (Model Context Protocol) server built with FastMCP and Python. The architecture includes:
 
 - **Package Structure**: Main implementation in `stockfish_mcp/` package
-- **Server Entry Point**: `server.py` contains the FastMCP server instance and chess-api.com integration
-- **Planned Backend Abstraction**: Designed to support switching between chess-api.com and local Stockfish binary
-- **Dependencies**: FastMCP for MCP protocol, python-chess for chess logic, requests for API calls
+- **Server Entry Point**: `server.py` contains the FastMCP server instance
+- **Engine Management**: StockfishManager class provides persistent connection to external Stockfish binary
+- **Architecture Decision**: Persistent engine connection with lazy initialization for optimal performance
+- **Dependencies**: FastMCP for MCP protocol, python-chess for chess logic and UCI communication
+- **External Dependency**: Stockfish chess engine (user-installed)
 
 ## Development Commands
 
@@ -54,6 +56,7 @@ uv pip install -e .
 - Help with testing and build processes
 - **Create test frameworks and write comprehensive tests for TDD workflow**
 - **Create feature branches and manage git workflow for TDD**
+- **Create and update documentation files (design docs, plans, etc.)**
 
 ## What You CANNOT Do
 - Write any Python code that implements MCP servers, tools, or handlers
@@ -67,29 +70,35 @@ uv pip install -e .
 - Suggest approaches without providing implementations
 - Help me understand error messages and debugging
 
-## TDD Workflow
-Our Test-Driven Development process follows this pattern:
+## Chess Development with python-chess
 
-1. **Feature Planning**: Discuss and define the feature requirements
-2. **Branch Creation**: I create a new feature branch for the work
-3. **Test Creation**: I create comprehensive tests that define the expected behavior
-4. **Feature Development**: You implement the feature until all tests pass
-5. **Integration**: I merge the feature branch once tests are satisfied
+This project leverages the `python-chess` library instead of custom chess implementations:
 
-**Test Commands:**
-```bash
-# Run all tests
-uv run pytest
+- **FEN Validation**: Use `chess.Board(fen)` for robust FEN validation
+- **Chess Logic**: Leverage python-chess for moves, positions, and game state
+- **Engine Integration**: Use python-chess UCI support for Stockfish communication
+- **Avoid Reinventing**: Don't build custom chess functionality that already exists
 
-# Run tests with coverage
-uv run pytest --cov=stockfish_mcp
+**Key python-chess Features:**
+```python
+import chess
 
-# Run specific test file
-uv run pytest tests/test_feature.py
+# FEN validation
+board = chess.Board(fen)  # Raises ValueError if invalid
 
-# Run tests in watch mode (if available)
-uv run pytest-watch
+# Move validation
+move = chess.Move.from_uci("e2e4")
+board.is_legal(move)
+
+# Position analysis
+board.is_check()
+board.is_checkmate()
+board.legal_moves
 ```
+
+## Design Documentation
+- **[StockfishManager Design Plan](docs/stockfish-manager-design.md)** - Architecture for persistent engine management
+- Key design decisions: Persistent connection, lazy initialization, health checking
 
 ## Documentation Resources
 - Always reference official FastMCP documentation

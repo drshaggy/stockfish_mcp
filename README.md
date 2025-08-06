@@ -9,8 +9,8 @@ This MCP server offers chess analysis tools that can be used by MCP-compatible c
 ## Implementation Status
 
 ### Core Chess Tools
-- [ ] **`validate_fen`** - Validate FEN position strings
-- [ ] **`analyze_position`** - Get position evaluation and analysis 
+- [x] **`fen_validator`** - Validate FEN position strings using python-chess
+- [x] **`analyze_position`** - Get position evaluation and analysis via persistent Stockfish connection 
 - [ ] **`get_best_move`** - Find the best move for a position
 - [ ] **`get_top_moves`** - Get multiple good moves ranked by strength
 
@@ -31,22 +31,39 @@ This MCP server offers chess analysis tools that can be used by MCP-compatible c
 ### Current Status
 - [x] **Basic MCP server setup** - Server runs and exposes tools
 - [x] **Development environment** - UV package management configured
-- [ ] **Chess-api.com integration** - Backend API integration
-- [ ] **Stockfish binary support** - Local engine integration
+- [x] **Stockfish binary support** - Local engine integration with persistent connection
+- [x] **StockfishManager implementation** - Engine lifecycle management with lazy initialization
 
 ## Architecture
 
-The server is built with a flexible backend abstraction layer:
+The server is built with a persistent Stockfish engine architecture:
 
-- **Current**: chess-api.com integration for remote Stockfish analysis (planned)
-- **Future**: Direct Stockfish binary integration for local analysis
+- **Engine Integration**: External Stockfish binary via python-chess UCI interface
+- **Connection Management**: Persistent engine connection with lazy initialization for optimal performance
 - **Framework**: Official MCP Python SDK with FastMCP
-- **Chess Logic**: python-chess for position validation and manipulation
+- **Chess Logic**: python-chess library for all chess operations (validation, moves, analysis)
+
+### Design Documents
+- [StockfishManager Design Plan](docs/stockfish-manager-design.md) - Detailed architecture for engine management
 
 ## Requirements
 
 - Python 3.10+
 - UV package manager
+- Stockfish chess engine (external dependency)
+
+### Installing Stockfish
+
+```bash
+# macOS
+brew install stockfish
+
+# Ubuntu/Debian
+sudo apt install stockfish
+
+# Windows
+# Download from https://stockfishchess.org
+```
 
 ## Installation
 
@@ -69,12 +86,14 @@ uv run mcp dev server.py
 uv add package-name
 ```
 
-## Current Tools
+## Implemented Tools
 
-Currently implemented tools:
-- **`add`** - Basic test tool (adds two numbers)
-
-*Chess-specific tools are planned and will be implemented incrementally.*
+### Chess Analysis Tools
+- **`fen_validator(fen: str)`** - Validates FEN position strings using python-chess library
+- **`analyze_position(fen: str)`** - Analyzes chess positions using Stockfish engine
+  - Returns comprehensive analysis including position evaluation, best moves, search depth, and principal variation
+  - Uses persistent Stockfish connection for optimal performance
+  - Configurable analysis depth (default: 15)
 
 ## License
 
