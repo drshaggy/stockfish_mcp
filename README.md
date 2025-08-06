@@ -86,6 +86,22 @@ uv run mcp dev server.py
 uv add package-name
 ```
 
+## Installation to Claude Desktop
+
+To install this MCP server for use with Claude Desktop:
+
+```bash
+# Install the server to Claude Desktop with dependencies
+uv run mcp install server.py --name stockfish --with python-chess
+
+# Alternative: Include all project dependencies
+uv run mcp install server.py --name stockfish --with python-chess --with pydantic
+```
+
+**Important:** Use the `--with` flag to include project dependencies in the MCP environment. Without this, Claude Desktop won't have access to required packages like `python-chess`.
+
+This command registers the server with Claude Desktop, making the chess analysis tools available in your Claude conversations.
+
 ## Implemented Tools
 
 ### Chess Analysis Tools

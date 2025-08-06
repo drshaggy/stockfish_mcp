@@ -39,6 +39,20 @@ uv run python script.py
 uv pip install -e .
 ```
 
+**Claude Desktop Installation:**
+```bash
+# Install to Claude Desktop with dependencies
+uv run mcp install server.py --name stockfish --with python-chess
+
+# Include additional dependencies if needed
+uv run mcp install server.py --name stockfish --with python-chess --with pydantic
+
+# Development testing (includes dependencies automatically)
+uv run mcp dev server.py --with-editable .
+```
+
+**Important:** Always use the `--with` flag to include project dependencies when installing to Claude Desktop. The MCP install process creates an isolated environment that needs explicit dependency inclusion.
+
 ## Project Guidelines - CRITICAL INSTRUCTIONS
 - **NEVER WRITE MCP CODE**: This is a learning project. I must implement ALL MCP-related code myself
 - **NO CODE GENERATION**: Do not create, write, or suggest complete code implementations for MCP servers, tools, or handlers

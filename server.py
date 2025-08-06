@@ -12,6 +12,8 @@ stockfish_manager = StockfishManager()
 
 CHESS_API_BASE = 'https://chess-api.com/v1'
 
+def main():
+    mcp.run()
 
 @mcp.tool()
 def fen_validator(fen: str) -> bool:
@@ -26,4 +28,6 @@ def fen_validator(fen: str) -> bool:
 def analyze_position(fen: str):
     board  = chess.Board(fen)
     return stockfish_manager.analyze_position(board)
-    
+
+if __name__ == "__main__":
+    main()
