@@ -138,6 +138,12 @@ logger.debug("Field validation", extra={"field": "board", "value_length": len(va
 - Function names and line numbers included
 - MCP-friendly output format
 
+## Project Documentation
+
+**Documentation Structure**: All project documentation (except README.md and CLAUDE.md) is stored in the `docs/` directory to maintain clean repository organization.
+
+**Future Development Plans**: See [docs/pydantic-refactoring-plan.md](docs/pydantic-refactoring-plan.md) for comprehensive plan to enhance type safety using Pydantic models for validation and mypy for static type checking.
+
 ## Documentation Resources
 - Always reference official FastMCP documentation
 - Use WebFetch to get latest documentation when needed
