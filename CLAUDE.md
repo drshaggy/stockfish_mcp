@@ -85,11 +85,58 @@ uv run pytest
 uv run pytest --cov=stockfish_mcp
 
 # Run specific test file
-uv run pytest tests/test_feature.py
+uv run pytest tests/test_fen_validator.py
+
+# Run specific test class
+uv run pytest tests/test_fen_validator.py::TestFenValidator
+
+# Run specific test method
+uv run pytest tests/test_fen_validator.py::TestFenValidator::test_starting_position
+
+# Run tests with verbose output
+uv run pytest -v
+
+# Run failing tests only
+uv run pytest --lf
+
+# Run tests and stop on first failure
+uv run pytest -x
+
+# Check test collection without running
+uv run pytest --collect-only
 
 # Run tests in watch mode (if available)
 uv run pytest-watch
 ```
+
+## Logging
+
+The project includes MCP-compliant logging with sensitive data masking:
+
+**Setup:**
+```python
+from stockfish_mcp.logger import get_logger
+
+logger = get_logger(__name__)
+```
+
+**Usage:**
+```python
+# Basic logging
+logger.info("Starting FEN validation")
+logger.debug("Processing board position")
+logger.warning("Invalid castling rights detected")
+logger.error("Validation failed", extra={"error": str(e)})
+
+# With structured data
+logger.debug("Field validation", extra={"field": "board", "value_length": len(value)})
+```
+
+**Features:**
+- Automatic sensitive data masking (API keys, tokens)
+- Structured logging with timestamps and context
+- Function names and line numbers included
+- MCP-friendly output format
 
 ## Documentation Resources
 - Always reference official FastMCP documentation

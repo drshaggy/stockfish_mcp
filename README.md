@@ -9,7 +9,7 @@ This MCP server offers chess analysis tools that can be used by MCP-compatible c
 ## Implementation Status
 
 ### Core Chess Tools
-- [ ] **`validate_fen`** - Validate FEN position strings
+- [x] **`validate_fen`** - Validate FEN position strings (partial implementation)
 - [ ] **`analyze_position`** - Get position evaluation and analysis 
 - [ ] **`get_best_move`** - Find the best move for a position
 - [ ] **`get_top_moves`** - Get multiple good moves ranked by strength
@@ -31,6 +31,8 @@ This MCP server offers chess analysis tools that can be used by MCP-compatible c
 ### Current Status
 - [x] **Basic MCP server setup** - Server runs and exposes tools
 - [x] **Development environment** - UV package management configured
+- [x] **Test-Driven Development** - Pytest framework with comprehensive test suite
+- [x] **Logging system** - MCP-compliant logging with sensitive data masking
 - [ ] **Chess-api.com integration** - Backend API integration
 - [ ] **Stockfish binary support** - Local engine integration
 
@@ -67,7 +69,37 @@ uv run mcp dev server.py
 
 # Add new dependencies
 uv add package-name
+
+# Run tests
+uv run pytest
+
+# Run tests with coverage
+uv run pytest --cov=stockfish_mcp
 ```
+
+## Logging
+
+The project includes MCP-compliant logging with automatic sensitive data masking:
+
+```python
+from stockfish_mcp.logger import get_logger
+
+logger = get_logger(__name__)
+
+# Basic logging
+logger.info("Starting FEN validation")
+logger.debug("Processing board position")
+logger.error("Validation failed", extra={"error": str(e)})
+
+# With structured context
+logger.debug("Field validation", extra={"field": "board", "length": len(value)})
+```
+
+**Features:**
+- Automatic masking of sensitive data (API keys, tokens)
+- Structured logging with timestamps and function context
+- MCP-friendly output format
+- Configurable log levels
 
 ## Current Tools
 
