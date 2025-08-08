@@ -28,7 +28,15 @@ def fen_validator(fen: str) -> bool:
 def analyze_position(fen: str):
     """Analyze a chess position"""
     board  = chess.Board(fen)
-    return stockfish_manager.analyze_position(board)
+    analysis = stockfish_manager.analyze_position(board)
+    return {
+          "best_move": analysis["pv"][0].uci(),
+          "score": str(analysis["score"].relative),
+          "depth": analysis["depth"],
+          "nodes": analysis.get("nodes"),
+          "time": analysis.get("time"),
+          "pv": [move.uci() for move in analysis["pv"]]
+    }
 
 @mcp.tool()
 def get_best_move(fen: str):
@@ -36,6 +44,17 @@ def get_best_move(fen: str):
     board  = chess.Board(fen)
     return stockfish_manager.get_best_move(board).uci()
 
+@mcp.tool()
+def get_top_moves(fen: str, count: int = 5):
+    board = chess.Board(fen)
+    moves_data = stockfish_manager.get_top_moves(board, count)
+    return [
+        {
+            "move": move.uci(),
+            "score": str(score.relative)
+        }
+        for move, score in moves_data
+    ]
 
 if __name__ == "__main__":
     main()

@@ -24,7 +24,6 @@ class StockfishManager:
                 self.engine = chess.engine.SimpleEngine.popen_uci("stockfish")
             logger.debug("Engine launched")
             self.first_run = False
-            
     
     def analyze_position(self, board: chess.Board):
         self._ensure_engine()  
@@ -34,6 +33,11 @@ class StockfishManager:
         self._ensure_engine()
         result = self.engine.play(board, self.limit) 
         return result.move
+
+    def get_top_moves(self, board: chess.Board, count=10):
+        self._ensure_engine()
+        results = self.engine.analyse(board, self.limit, multipv=count)
+        return  [(result["pv"][0], result["score"]) for result in results]
     
     def close(self):
         self.engine.quit()

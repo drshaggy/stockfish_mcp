@@ -37,6 +37,18 @@ uv run python script.py
 
 # Install project in development mode
 uv pip install -e .
+
+# Run tests
+uv run python -m pytest
+
+# Run tests with coverage
+uv run python -m pytest --cov=stockfish_mcp
+
+# Run single test file
+uv run python -m pytest tests/test_specific.py
+
+# Run tests in verbose mode
+uv run python -m pytest -v
 ```
 
 **Claude Desktop Installation:**
@@ -113,6 +125,19 @@ board.legal_moves
 ## Design Documentation
 - **[StockfishManager Design Plan](docs/stockfish-manager-design.md)** - Architecture for persistent engine management
 - Key design decisions: Persistent connection, lazy initialization, health checking
+
+## Key Implementation Notes
+
+**StockfishManager Architecture:**
+- Lazy initialization pattern - engine connection established on first use
+- Persistent connection maintained across multiple requests for performance
+- Configurable depth parameter (default: 15 plies)
+- External Stockfish binary dependency (user must install)
+
+**Entry Points:**
+- Package console script: `stockfish-mcp` (defined in pyproject.toml)
+- Direct server execution: `server.py` contains main() function
+- MCP development mode: Use `uv run mcp dev server.py`
 
 ## Documentation Resources
 - Always reference official FastMCP documentation

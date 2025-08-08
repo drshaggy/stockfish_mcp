@@ -12,7 +12,7 @@ This MCP server offers chess analysis tools that can be used by MCP-compatible c
 - [x] **`fen_validator`** - Validate FEN position strings using python-chess
 - [x] **`analyze_position`** - Get position evaluation and analysis via persistent Stockfish connection 
 - [x] **`get_best_move`** - Find the best move for a position
-- [ ] **`get_top_moves`** - Get multiple good moves ranked by strength
+- [x] **`get_top_moves`** - Get multiple good moves ranked by strength
 
 ### Position Information Tools
 - [ ] **`position_info`** - Basic position details (turn, castling rights, en passant, etc.)
@@ -114,6 +114,11 @@ This command registers the server with Claude Desktop, making the chess analysis
   - Returns the strongest move in UCI notation (e.g., "e2e4")
   - Uses Stockfish engine with configurable depth
   - Leverages persistent connection for fast response times
+- **`get_top_moves(fen: str, count: int = 5)`** - Gets multiple best moves ranked by strength
+  - Returns list of top moves with evaluations using Stockfish MultiPV
+  - Each move includes UCI notation, centipawn score, and search depth
+  - Configurable count parameter (default: 5 moves)
+  - Uses persistent connection for optimal performance
 
 ## License
 
