@@ -26,8 +26,16 @@ def fen_validator(fen: str) -> bool:
 
 @mcp.tool()
 def analyze_position(fen: str):
+    """Analyze a chess position"""
     board  = chess.Board(fen)
     return stockfish_manager.analyze_position(board)
+
+@mcp.tool()
+def get_best_move(fen: str):
+    """Get the best move for a chess position"""
+    board  = chess.Board(fen)
+    return stockfish_manager.get_best_move(board).uci()
+
 
 if __name__ == "__main__":
     main()
