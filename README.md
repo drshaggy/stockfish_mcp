@@ -20,7 +20,7 @@ This MCP server provides comprehensive chess capabilities including position ana
 - [ ] **`make_move`** - Apply a move and return the new position
 
 ### Chess Game Playing Tools
-- [ ] **`start_game`** - Initialize new game with AI color selection
+- [ ] **`start_game`** - Initialize new game with AI color and difficulty selection
 - [ ] **`record_opponent_move`** - Record and validate human player's move  
 - [ ] **`make_move`** - AI plays its move in the current game
 - [ ] **`get_game_status`** - View current board position and game state

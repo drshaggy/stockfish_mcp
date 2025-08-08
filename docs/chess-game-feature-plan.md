@@ -18,10 +18,10 @@ Tools provide mechanical functionality - agents handle interpretation and decisi
 ## New MCP Tools
 
 ### Game Setup
-- **`start_game(ai_color: str)`** - Initialize new game
-  - Parameters: "white" or "black" (agent's color)
-  - Agent interprets human request and sets own color
-  - Example: Human says "I'll play white" → Agent calls `start_game("black")`
+- **`start_game(ai_color: str, difficulty: int = 15)`** - Initialize new game
+  - Parameters: "white" or "black" (agent's color), search depth (default: 15)
+  - Agent interprets human request and sets color and difficulty
+  - Example: Human says "I'll play white at medium difficulty" → Agent calls `start_game("black", 12)`
 
 - **`set_difficulty(depth: int)`** - Configure AI search depth
   - Parameters: Stockfish search depth (1-20)
@@ -47,8 +47,8 @@ Tools provide mechanical functionality - agents handle interpretation and decisi
 
 **Setup:**
 ```
-Human: "Let's play chess, you be white"
-Agent: [calls start_game("white")]
+Human: "Let's play chess, you be white, play at medium difficulty"
+Agent: [calls start_game("white", 12)]
 Agent: [calls make_move("e2e4")] "I'll open with the King's pawn"
 ```
 
