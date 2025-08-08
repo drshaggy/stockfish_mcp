@@ -4,7 +4,7 @@ A Model Context Protocol (MCP) server that provides chess analysis and position 
 
 ## Overview
 
-This MCP server offers chess analysis tools that can be used by MCP-compatible clients. It's designed with a flexible backend architecture that currently supports chess-api.com integration with plans to add direct Stockfish binary support.
+This MCP server provides comprehensive chess capabilities including position analysis and interactive game playing. AI agents can analyze chess positions, get move recommendations, and play full games against human opponents using Stockfish engine integration.
 
 ## Implementation Status
 
@@ -18,6 +18,14 @@ This MCP server offers chess analysis tools that can be used by MCP-compatible c
 - [ ] **`position_info`** - Basic position details (turn, castling rights, en passant, etc.)
 - [ ] **`is_legal_move`** - Check if a move is legal in a position
 - [ ] **`make_move`** - Apply a move and return the new position
+
+### Chess Game Playing Tools
+- [ ] **`start_game`** - Initialize new game with AI color selection
+- [ ] **`record_opponent_move`** - Record and validate human player's move  
+- [ ] **`make_move`** - AI plays its move in the current game
+- [ ] **`get_game_status`** - View current board position and game state
+- [ ] **`set_difficulty`** - Configure AI playing strength
+- [ ] **`reset_game`** - Clear current game state
 
 ### Advanced Analysis Tools
 - [ ] **`evaluate_move`** - Analyze a specific move's strength
@@ -45,6 +53,7 @@ The server is built with a persistent Stockfish engine architecture:
 
 ### Design Documents
 - [StockfishManager Design Plan](docs/stockfish-manager-design.md) - Detailed architecture for engine management
+- [Chess Game Feature Plan](docs/chess-game-feature-plan.md) - Architecture for interactive game playing functionality
 
 ## Requirements
 
