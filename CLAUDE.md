@@ -6,12 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a Stockfish MCP (Model Context Protocol) server built with FastMCP and Python. The architecture includes:
 
-- **Package Structure**: Main implementation in `stockfish_mcp/` package
-- **Server Entry Point**: `server.py` contains the FastMCP server instance
-- **Engine Management**: StockfishManager class provides persistent connection to external Stockfish binary
+- **Main Server**: `server.py` contains FastMCP instance and tool definitions
+- **Engine Management**: `stockfish_manager.py` provides StockfishManager class for persistent Stockfish connections
+- **Package Structure**: Currently flat structure with main files in root, `stockfish_mcp/` package exists but unused
+- **MCP Tools**: Chess analysis tools exposed via FastMCP decorators (@mcp.tool())
 - **Architecture Decision**: Persistent engine connection with lazy initialization for optimal performance
 - **Dependencies**: FastMCP for MCP protocol, python-chess for chess logic and UCI communication
-- **External Dependency**: Stockfish chess engine (user-installed)
+- **External Dependency**: Stockfish chess engine (user-installed binary)
 
 ## Development Commands
 
@@ -123,23 +124,60 @@ board.legal_moves
 ```
 
 ## Design Documentation
-- **[StockfishManager Design Plan](docs/stockfish-manager-design.md)** - Architecture for persistent engine management
+- **[StockfishManager Design Plan](docs/stockfish-manager-design.md)** - Architecture for persistent engine management  
+- **[Chess Game Feature Plan](docs/chess-game-feature-plan.md)** - Planned interactive game playing functionality
 - Key design decisions: Persistent connection, lazy initialization, health checking
 
 ## Key Implementation Notes
 
-**StockfishManager Architecture:**
+**Current Implementation Status:**
+- Core analysis tools implemented: `fen_validator`, `analyze_position`, `get_best_move`, `get_top_moves`
+- StockfishManager provides lazy initialization and persistent engine connections
+- Server ready for MCP development and Claude Desktop integration
+
+**StockfishManager Architecture (`stockfish_manager.py`):**
 - Lazy initialization pattern - engine connection established on first use
 - Persistent connection maintained across multiple requests for performance
 - Configurable depth parameter (default: 15 plies)
 - External Stockfish binary dependency (user must install)
+- Located in root directory, not in package structure
 
 **Entry Points:**
-- Package console script: `stockfish-mcp` (defined in pyproject.toml)
+- Package console script: `stockfish-mcp` (defined in pyproject.toml, points to `server:main`)
 - Direct server execution: `server.py` contains main() function
 - MCP development mode: Use `uv run mcp dev server.py`
 
+**Current Tool Set (in server.py):**
+- `fen_validator(fen: str) -> bool` - Validates FEN strings using python-chess
+- `analyze_position(fen: str)` - Full position analysis with score, depth, PV
+- `get_best_move(fen: str)` - Returns best move in UCI notation
+- `get_top_moves(fen: str, count: int = 5)` - Multiple top moves with evaluations
+
+## Project Status & Roadmap
+
+**Completed Features:**
+- ✅ Basic MCP server setup with FastMCP
+- ✅ Persistent Stockfish engine connection (StockfishManager)  
+- ✅ Core analysis tools (validation, position analysis, best moves)
+- ✅ UV package management and development workflow
+- ✅ Claude Desktop installation support
+
+**Planned Features (see README.md):**
+- Position information tools (legal moves, game state)
+- Interactive chess game playing
+- Advanced analysis (tactics, openings)
+- PGN format support
+
+## Important File Locations
+
+- `server.py` - Main MCP server with tool definitions (server.py:15-60)
+- `stockfish_manager.py` - Engine management class (stockfish_manager.py:9-43)  
+- `pyproject.toml` - Project configuration and dependencies (pyproject.toml:20-21)
+- `docs/` - Architecture and design documentation
+- `tests/` - Test files (currently minimal)
+
 ## Documentation Resources
 - Always reference official FastMCP documentation
-- Use WebFetch to get latest documentation when needed
+- Use WebFetch to get latest documentation when needed  
 - Point me to relevant chess programming resources
+- README.md contains comprehensive feature roadmap and status

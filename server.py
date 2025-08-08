@@ -1,5 +1,6 @@
 from mcp.server.fastmcp import FastMCP
 import chess
+from game_state import GameState
 from stockfish_manager import StockfishManager as StockfishManager
 import logging
 
@@ -9,6 +10,8 @@ logger.setLevel(logging.DEBUG)
 logger.debug("Server started")
 mcp = FastMCP("stockfish")
 stockfish_manager = StockfishManager()
+current_game: GameState = None
+
 
 CHESS_API_BASE = 'https://chess-api.com/v1'
 
@@ -23,6 +26,8 @@ def fen_validator(fen: str) -> bool:
         return True
     except ValueError:
         return False
+
+# Stockfish tools
 
 @mcp.tool()
 def analyze_position(fen: str):
@@ -46,6 +51,7 @@ def get_best_move(fen: str):
 
 @mcp.tool()
 def get_top_moves(fen: str, count: int = 5):
+    """Get the top N moves for a chess position"""
     board = chess.Board(fen)
     moves_data = stockfish_manager.get_top_moves(board, count)
     return [
@@ -55,6 +61,21 @@ def get_top_moves(fen: str, count: int = 5):
         }
         for move, score in moves_data
     ]
+
+# Game state tools
+
+@mcp.tool()
+def start_game(ai_color: str = "black", difficulty: int = 10, fen:str = None):
+    """Start a new game"""
+    try:
+        global current_game
+        color = chess.BLACK if ai_color.lower() == "black" else chess.WHITE
+        current_game = GameState(color, difficulty, fen)
+        return {"status": "Game started", "ai_color": ai_color}
+    except ValueError as e:
+          return {"error": str(e)}
+
+    
 
 if __name__ == "__main__":
     main()

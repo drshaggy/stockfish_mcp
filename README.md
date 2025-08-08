@@ -20,7 +20,7 @@ This MCP server provides comprehensive chess capabilities including position ana
 - [ ] **`make_move`** - Apply a move and return the new position
 
 ### Chess Game Playing Tools
-- [ ] **`start_game`** - Initialize new game with AI color and difficulty selection
+- [x] **`start_game`** - Initialize new game with AI color and difficulty selection
 - [ ] **`record_opponent_move`** - Record and validate human player's move  
 - [ ] **`make_move`** - AI plays its move in the current game
 - [ ] **`get_game_status`** - View current board position and game state
@@ -128,6 +128,13 @@ This command registers the server with Claude Desktop, making the chess analysis
   - Each move includes UCI notation, centipawn score, and search depth
   - Configurable count parameter (default: 5 moves)
   - Uses persistent connection for optimal performance
+
+### Chess Game Playing Tools
+- **`start_game(ai_color: str = "black", difficulty: int = 10, fen: str = None)`** - Initialize new chess game
+  - Parameters: AI color ("black" or "white"), analysis depth for AI moves, optional custom starting position
+  - Creates GameState instance with comprehensive FEN validation
+  - Returns game start confirmation or detailed error messages for invalid positions
+  - Supports both standard games and custom position setups
 
 ## License
 
