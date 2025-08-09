@@ -36,11 +36,20 @@ This MCP server provides comprehensive chess capabilities including position ana
 - [ ] **`fen_to_pgn`** - Convert positions to PGN format
 - [ ] **`pgn_to_fen`** - Extract FEN from PGN
 
+### Testing & Quality Assurance
+- [x] **Comprehensive test suite** - 19 tests covering all MCP tools and functionality
+- [x] **3-layer testing architecture** - Unit tests with mocks, integration tests, end-to-end workflows
+- [x] **Async testing patterns** - FastMCP Client integration with pytest-asyncio
+- [x] **MockStockfishManager** - Predictable responses for reliable unit testing
+- [x] **Chess-specific fixtures** - Standard positions, edge cases, invalid FENs
+- [x] **CI-ready testing** - Mock-based tests work without external Stockfish dependency
+
 ### Current Status
 - [x] **Basic MCP server setup** - Server runs and exposes tools
 - [x] **Development environment** - UV package management configured
 - [x] **Stockfish binary support** - Local engine integration with persistent connection
 - [x] **StockfishManager implementation** - Engine lifecycle management with lazy initialization
+- [x] **Production-ready testing** - Complete test coverage with proper async patterns
 
 ## Architecture
 
@@ -54,6 +63,7 @@ The server is built with a persistent Stockfish engine architecture:
 ### Design Documents
 - [StockfishManager Design Plan](docs/stockfish-manager-design.md) - Detailed architecture for engine management
 - [Chess Game Feature Plan](docs/chess-game-feature-plan.md) - Architecture for interactive game playing functionality
+- [Testing Strategy](docs/testing-strategy.md) - Comprehensive MCP testing approach and implementation
 
 ## Requirements
 
@@ -93,6 +103,16 @@ uv run mcp dev server.py
 
 # Add new dependencies
 uv add package-name
+
+# Run tests (comprehensive test suite)
+uv run python -m pytest
+
+# Run tests with coverage reporting  
+uv run python -m pytest --cov=. --cov-report=term-missing
+
+# Run specific test categories
+uv run python -m pytest tests/test_tools.py  # Unit tests
+uv run python -m pytest tests/integration/   # Integration tests
 ```
 
 ## Installation to Claude Desktop
@@ -110,6 +130,43 @@ uv run mcp install server.py --name stockfish --with python-chess --with pydanti
 **Important:** Use the `--with` flag to include project dependencies in the MCP environment. Without this, Claude Desktop won't have access to required packages like `python-chess`.
 
 This command registers the server with Claude Desktop, making the chess analysis tools available in your Claude conversations.
+
+## Testing
+
+The project includes a comprehensive test suite with 19 tests covering all MCP functionality:
+
+### Test Architecture
+- **Unit Tests**: Fast tests using `MockStockfishManager` - no external dependencies required
+- **Integration Tests**: End-to-end testing with real Stockfish engine (when available)
+- **Async Testing**: Proper MCP protocol testing using FastMCP Client patterns
+
+### Running Tests
+```bash
+# Run all tests
+uv run python -m pytest
+
+# Run with verbose output
+uv run python -m pytest -v
+
+# Run with coverage reporting (shows missing lines)
+uv run python -m pytest --cov=. --cov-report=term-missing
+
+# Run only unit tests (fast, no Stockfish required)
+uv run python -m pytest tests/test_tools.py
+
+# Run specific test classes
+uv run python -m pytest tests/test_tools.py::TestFENValidator
+```
+
+### Test Coverage
+- ✅ MCP tool discovery and metadata validation
+- ✅ FEN validation with valid and invalid position strings
+- ✅ Chess analysis tools with mocked engine responses
+- ✅ Game state management and initialization
+- ✅ Complete integration workflows
+- ✅ Error handling and edge cases
+
+The test suite uses pytest-asyncio for proper async testing and includes comprehensive fixtures for chess positions and scenarios.
 
 ## Implemented Tools
 

@@ -67,13 +67,13 @@ def get_top_moves(fen: str, count: int = 5):
 @mcp.tool()
 def start_game(ai_color: str = "black", difficulty: int = 10, fen:str = None):
     """Start a new game"""
+    global current_game
     try:
-        global current_game
         color = chess.BLACK if ai_color.lower() == "black" else chess.WHITE
         current_game = GameState(color, difficulty, fen)
         return {"status": "Game started", "ai_color": ai_color}
     except ValueError as e:
-          return {"error": str(e)}
+        return {"error": str(e)}
 
     
 
