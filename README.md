@@ -107,8 +107,8 @@ uv add package-name
 # Run tests (comprehensive test suite)
 uv run python -m pytest
 
-# Run tests with coverage
-uv run python -m pytest --cov=stockfish_mcp
+# Run tests with coverage reporting  
+uv run python -m pytest --cov=. --cov-report=term-missing
 
 # Run specific test categories
 uv run python -m pytest tests/test_tools.py  # Unit tests
@@ -148,8 +148,8 @@ uv run python -m pytest
 # Run with verbose output
 uv run python -m pytest -v
 
-# Run with coverage reporting
-uv run python -m pytest --cov=stockfish_mcp
+# Run with coverage reporting (shows missing lines)
+uv run python -m pytest --cov=. --cov-report=term-missing
 
 # Run only unit tests (fast, no Stockfish required)
 uv run python -m pytest tests/test_tools.py
