@@ -21,8 +21,8 @@ This MCP server provides comprehensive chess capabilities including position ana
 
 ### Chess Game Playing Tools
 - [x] **`start_game`** - Initialize new game with AI color and difficulty selection
-- [ ] **`record_opponent_move`** - Record and validate human player's move  
-- [ ] **`make_move`** - AI plays its move in the current game
+- [x] **`record_opponent_move`** - Record and validate human player's move  
+- [x] **`make_move`** - AI plays its move in the current game
 - [ ] **`get_game_status`** - View current board position and game state
 - [ ] **`set_difficulty`** - Configure AI playing strength
 - [ ] **`reset_game`** - Clear current game state
@@ -192,6 +192,16 @@ The test suite uses pytest-asyncio for proper async testing and includes compreh
   - Creates GameState instance with comprehensive FEN validation
   - Returns game start confirmation or detailed error messages for invalid positions
   - Supports both standard games and custom position setups
+- **`record_opponent_move(move: str)`** - Record human player's move in current game
+  - Parameters: Move in UCI notation (e.g., "e2e4")
+  - Validates move legality using chess library
+  - Comprehensive error handling for invalid moves and missing game state
+  - Updates game state and move history
+- **`make_move(move: str)`** - Apply AI's move to current game
+  - Parameters: AI's chosen move in UCI notation
+  - Used by AI agent after determining best move
+  - Full validation and game state updates
+  - Returns confirmation or error details
 
 ## License
 

@@ -30,15 +30,17 @@ Tools provide mechanical functionality - agents handle interpretation and decisi
   - Agent interprets difficulty requests ("easy" → depth 8, "hard" → depth 18)
 
 ### Game Play  
-- **`record_opponent_move(move: str)`** - Record human's move
+- **✅ `record_opponent_move(move: str)`** - Record human's move ✅ **IMPLEMENTED**
   - Parameters: Move in UCI format (e.g., "e2e4")
   - Validates move legality, updates game state
+  - Comprehensive error handling for invalid moves and game state
   - Like writing opponent's move on tournament scorecard
 
-- **`make_move(move: str)`** - AI plays its move
+- **✅ `make_move(move: str)`** - AI plays its move ✅ **IMPLEMENTED**
   - Parameters: AI's chosen move in UCI format
   - Agent calls when ready to respond
   - Updates game state with AI move
+  - Full validation and error handling
 
 - **`get_game_status()`** - View current game state
   - Returns: Board position (FEN), move history, whose turn, game status
@@ -125,9 +127,11 @@ class GameState:
 - ✅ **Mock Testing**: MockGameState for reliable unit testing
 
 ### In Progress 🔄
-- [ ] **`record_opponent_move`**: Accept and validate human player moves
-- [ ] **`make_move`**: AI move generation and game state updates
 - [ ] **`get_game_status`**: Board visualization and game state queries
+
+### Completed Features ✅
+- ✅ **`record_opponent_move`**: Accept and validate human player moves with comprehensive error handling
+- ✅ **`make_move`**: AI move generation and game state updates with UCI validation
 
 ## Future Enhancements
 - Multiple concurrent games

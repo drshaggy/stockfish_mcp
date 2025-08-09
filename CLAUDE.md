@@ -83,6 +83,8 @@ The project uses a comprehensive 3-layer testing approach based on MCP ecosystem
 - `get_best_move(fen: str)` - Best move in UCI notation  
 - `get_top_moves(fen: str, count: int = 5)` - Multiple top moves with MultiPV
 - `start_game(ai_color: str = "black", difficulty: int = 10, fen: str = None)` - Initialize chess game
+- `record_opponent_move(move: str)` - Record and validate human player moves
+- `make_move(move: str)` - Apply AI moves to current game state
 
 **Key Classes:**
 - `StockfishManager` (stockfish_manager.py:9-43) - Manages persistent engine connection
@@ -154,10 +156,12 @@ Architecture plans in `docs/`:
 - Core analysis tools (validation, analysis, best moves)
 - Game state management foundation
 - Comprehensive testing architecture setup
+- Interactive game playing tools (record_opponent_move, make_move)
+- Comprehensive error handling for game moves and state validation
 
 **🔄 In Progress:**
-- Interactive game playing tools (record_opponent_move, make_move, get_game_status)
-- Comprehensive error handling and reconnection logic
+- Additional game status tools (get_game_status)
+- Engine reconnection logic for production reliability
 
 **📋 Planned:**
 - Position information tools
