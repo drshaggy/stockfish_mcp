@@ -28,9 +28,14 @@ class GameState():
         self.board.push(move)
         self.move_history.append(move)
 
-    def game_state(self):
+    def game_status(self):
         return {
-            "board": str(self.board),
-            "current_player": self.current_player,
-            "move_history": self.move_history
-        }
+            "fen": self.board.fen(),
+            "current_player": "white" if self.current_player == chess.WHITE else "black",
+            "move_history": [move.uci() for move in self.move_history],  # UCI strings
+            "is_check": self.board.is_check(),
+            "is_checkmate": self.board.is_checkmate(),
+            "is_stalemate": self.board.is_stalemate(),
+            "is_game_over": self.board.is_game_over(),
+            "ai_color": "white" if self.ai_color == chess.WHITE else "black"
+      }

@@ -102,5 +102,13 @@ def make_move(move: str):
     except ValueError as e:
         return {"error": f"Invalid move: {e}"}
 
+@mcp.tool()
+def get_game_status():
+    """Get the current game status"""
+    global current_game
+    if current_game is None:
+        return {"error": "No active game. Start a game first."}
+    return current_game.game_status()
+    
 if __name__ == "__main__":
     main()
