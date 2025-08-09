@@ -8,8 +8,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 logger.debug("Server started")
-mcp = FastMCP("stockfish",
-        description="Chess analysis and interactive game playing server using Stockfish engine. Provides position analysis, move generation, and interactive chess gameplay tools.")
+mcp = FastMCP("stockfish")
 stockfish_manager = StockfishManager()
 current_game: GameState = None
 

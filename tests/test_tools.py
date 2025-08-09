@@ -22,7 +22,10 @@ class TestToolDiscovery:
             "analyze_position", 
             "get_best_move",
             "get_top_moves",
-            "start_game"
+            "start_game",
+            "record_opponent_move",
+            "make_move",
+            "get_game_status"
         ]
         
         for tool_name in expected_tools:
@@ -209,6 +212,125 @@ class TestGameTools:
         
         assert "error" in result, "Invalid FEN should return error"
         assert "Invalid FEN string" in result["error"], "Error should mention invalid FEN"
+    
+    @pytest.mark.asyncio 
+    async def test_record_opponent_move_success(self):
+        """Test recording a valid opponent move"""
+        import server
+        
+        # Start a game first
+        server.start_game("black", 10)
+        
+        # Record a valid move
+        result = server.record_opponent_move("e2e4")
+        
+        assert result["status"] == "Move recorded", "Valid move should be recorded"
+        assert len(server.current_game.move_history) == 1, "Move history should contain one move"
+        assert server.current_game.move_history[0].uci() == "e2e4", "Move should be e2e4"
+    
+    @pytest.mark.asyncio
+    async def test_record_opponent_move_no_game(self):
+        """Test recording move when no game is active"""
+        import server
+        
+        # Clear any existing game
+        server.current_game = None
+        
+        result = server.record_opponent_move("e2e4")
+        
+        assert "error" in result, "Should return error when no game active"
+        assert "No active game" in result["error"], "Error should mention no active game"
+    
+    @pytest.mark.asyncio
+    async def test_record_opponent_move_invalid_uci(self):
+        """Test recording move with invalid UCI format"""
+        import server
+        
+        # Start a game first
+        server.start_game("black", 10)
+        
+        result = server.record_opponent_move("invalid_move")
+        
+        assert "error" in result, "Invalid UCI should return error"
+        assert "Invalid move" in result["error"], "Error should mention invalid move"
+    
+    @pytest.mark.asyncio
+    async def test_record_opponent_move_illegal_move(self):
+        """Test recording an illegal chess move"""
+        import server
+        
+        # Start a game first  
+        server.start_game("black", 10)
+        
+        # Try to move a piece to an invalid square
+        result = server.record_opponent_move("e2e5")  # Pawn can't move 3 squares
+        
+        assert "error" in result, "Illegal move should return error"
+        assert "Invalid move" in result["error"], "Error should mention invalid move"
+    
+    @pytest.mark.asyncio
+    async def test_make_move_success(self):
+        """Test making a valid AI move"""
+        import server
+        
+        # Start a game first
+        server.start_game("black", 10)
+        
+        # Make a valid move
+        result = server.make_move("e2e4")
+        
+        assert result["status"] == "Move made", "Valid move should be made"
+        assert len(server.current_game.move_history) == 1, "Move history should contain one move"
+        assert server.current_game.move_history[0].uci() == "e2e4", "Move should be e2e4"
+    
+    @pytest.mark.asyncio
+    async def test_make_move_no_game(self):
+        """Test making move when no game is active"""
+        import server
+        
+        # Clear any existing game
+        server.current_game = None
+        
+        result = server.make_move("e2e4")
+        
+        assert "error" in result, "Should return error when no game active"
+        assert "No active game" in result["error"], "Error should mention no active game"
+    
+    @pytest.mark.asyncio
+    async def test_get_game_status_success(self):
+        """Test getting game status"""
+        import server
+        
+        # Start a game and make some moves
+        server.start_game("black", 10)
+        server.record_opponent_move("e2e4")
+        server.make_move("e7e5")
+        
+        result = server.get_game_status()
+        
+        assert "fen" in result, "Status should include FEN"
+        assert "current_player" in result, "Status should include current player"
+        assert "move_history" in result, "Status should include move history"
+        assert "is_check" in result, "Status should include check status"
+        assert "is_game_over" in result, "Status should include game over status"
+        assert "ai_color" in result, "Status should include AI color"
+        
+        assert len(result["move_history"]) == 2, "Should have 2 moves in history"
+        assert result["move_history"] == ["e2e4", "e7e5"], "Move history should be in UCI format"
+        assert result["ai_color"] == "black", "AI color should be black"
+    
+    @pytest.mark.asyncio
+    async def test_get_game_status_no_game(self):
+        """Test getting game status when no game is active"""
+        import server
+        
+        # Clear any existing game
+        server.current_game = None
+        
+        result = server.get_game_status()
+        
+        assert "error" in result, "Should return error when no game active"
+        assert "No active game" in result["error"], "Error should mention no active game"
 
 
 class TestToolIntegration:
