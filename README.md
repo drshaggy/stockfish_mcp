@@ -115,6 +115,16 @@ uv run python -m pytest tests/test_tools.py  # Unit tests
 uv run python -m pytest tests/integration/   # Integration tests
 ```
 
+## Running the MCP
+```
+npx mcp-proxy \
+  --host 0.0.0.0 \
+  --port 8383 \
+  --server stream \
+  --streamEndpoint /mcp \
+  uv run server.py
+```
+
 ## Installation to Claude Desktop
 
 To install this MCP server for use with Claude Desktop:
